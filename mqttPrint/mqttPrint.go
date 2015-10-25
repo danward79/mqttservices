@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/danward79/mqttservices"
+	proto "github.com/huin/mqtt"
 )
 
 func main() {
@@ -14,7 +15,11 @@ func main() {
 	flag.Parse()
 
 	mqttClient := mqttservices.NewClient(*mqttServer)
-	chSub := mqttClient.Subscribe(*topic)
+
+	chSub := mqttClient.Subscribe([]proto.TopicQos{{
+		Topic: *topic,
+		Qos:   proto.QosAtMostOnce,
+	}})
 
 	for {
 		select {

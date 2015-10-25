@@ -33,7 +33,8 @@ func (c *MqttClient) String() string {
 }
 
 //Subscribe to MQTT Topic, takes topic as a string
-func (c *MqttClient) Subscribe(topic string) chan *proto.Publish {
+//func (c *MqttClient) Subscribe(topic string) chan *proto.Publish {
+func (c *MqttClient) Subscribe(tl []proto.TopicQos) chan *proto.Publish {
 
 	if ccSub == nil {
 
@@ -46,10 +47,7 @@ func (c *MqttClient) Subscribe(topic string) chan *proto.Publish {
 		gotError(err)
 	}
 
-	ccSub.Subscribe([]proto.TopicQos{{
-		Topic: topic,
-		Qos:   proto.QosAtMostOnce,
-	}})
+	ccSub.Subscribe(tl)
 
 	return ccSub.Incoming
 }
