@@ -33,7 +33,6 @@ func (c *MqttClient) String() string {
 }
 
 //Subscribe to MQTT Topic, takes topic as a string
-//func (c *MqttClient) Subscribe(topic string) chan *proto.Publish {
 func (c *MqttClient) Subscribe(tl []proto.TopicQos) chan *proto.Publish {
 
 	if ccSub == nil {
