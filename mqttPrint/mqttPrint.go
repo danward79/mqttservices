@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"log"
 
 	"github.com/danward79/mqttservices"
 	proto "github.com/huin/mqtt"
@@ -21,11 +21,7 @@ func main() {
 		Qos:   proto.QosAtMostOnce,
 	}})
 
-	for {
-		select {
-		case m := <-chSub:
-			fmt.Printf("%s\t\t%s\n", m.TopicName, m.Payload)
-
-		}
+	for m := range chSub {
+		log.Printf("%s\t\t%s\n", m.TopicName, m.Payload)
 	}
 }

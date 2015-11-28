@@ -3,6 +3,7 @@ package mqttservices
 
 import (
 	"fmt"
+	"log"
 	"net"
 	"strconv"
 	"strings"
@@ -20,16 +21,16 @@ type MqttClient struct {
 	Port string
 }
 
-//NewClient declares a new broker
-func NewClient(port string) *MqttClient {
-	m := &MqttClient{Port: port}
-	fmt.Println(m)
-	return m
-}
-
 //String returns details of the MqttClient
 func (c *MqttClient) String() string {
 	return fmt.Sprintf("MqttClient: IP %s", c.Port)
+}
+
+//NewClient declares a new broker
+func NewClient(port string) *MqttClient {
+	m := &MqttClient{Port: port}
+	log.Println(m)
+	return m
 }
 
 //Subscribe to MQTT Topic, takes topic as a string
@@ -66,15 +67,12 @@ func (c *MqttClient) Publish(topic string, data string, retain bool) {
 
 	ccPub.Publish(&proto.Publish{
 		Header: proto.Header{
-			//	DupFlag:  false,
-			//	QosLevel: proto.QosAtLeastOnce,
 			Retain: retain,
 		},
 		TopicName: topic,
 		Payload:   proto.BytesPayload(data),
 	})
 
-	//ccPub.Disconnect()
 }
 
 //PublishMap a Map data entry takes a channel
